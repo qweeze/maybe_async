@@ -3,6 +3,7 @@ An experimental attempt to abstract away async/await semantics
 
 #### Usage:
 ```python
+import asyncio
 import requests
 import aiohttp
 from maybe_async import maybe_async
@@ -21,5 +22,6 @@ async def main():
         result = await fetch_data(session)
         print(result)
 
-asyncio.run(main())
+if __name__ == '__main__':
+    asyncio.run(main())
 ```
