@@ -51,12 +51,12 @@ def maybe_async(func):
 
     async def async_executor(gen, val):
         while True:
+            if inspect.isawaitable(val):
+                val = await val
             try:
                 val = gen.send(val)
             except StopIteration as exc:
                 return exc.value
-            if inspect.isawaitable(val):
-                val = await val
 
     @functools.wraps(func)
     def wrapper(*args, **kwargs):
