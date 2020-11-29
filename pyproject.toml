@@ -5,7 +5,7 @@ description = ""
 authors = ["George Fortunatov <qweeeze@gmail.com>"]
 
 [tool.poetry.dependencies]
-python = "^3.8"
+python = ">=3.6"
 
 [tool.poetry.dev-dependencies]
 ipython = "^7.13.0"
