@@ -45,7 +45,7 @@ def maybe_async(func):
         not inspect.isgeneratorfunction(func) and
         not inspect.isasyncgenfunction(func)
     ):
-        raise ValueError('Only a normal function allowed')
+        raise TypeError('Only a normal function allowed')
 
     gen_func = _make_generator(func)
 
