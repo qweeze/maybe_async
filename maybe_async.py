@@ -49,12 +49,12 @@ def maybe_async(func):
 
     gen_func = _make_generator(func)
 
-    async def async_executor(rv, gen):
+    async def async_executor(gen, val):
         while True:
-            if inspect.isawaitable(rv):
-                rv = await rv
+            if inspect.isawaitable(val):
+                val = await val
             try:
-                rv = gen.send(rv)
+                val = gen.send(val)
             except StopIteration as exc:
                 return exc.value
 
@@ -64,16 +64,12 @@ def maybe_async(func):
         if not inspect.isgenerator(gen):
             return gen
 
-        try:
-            rv = gen.send(None)
-        except StopIteration as exc:
-            return exc.value
-
+        val = None
         while True:
-            if inspect.isawaitable(rv):
-                return async_executor(rv, gen)
             try:
-                rv = gen.send(rv)
+                val = gen.send(val)
+                if inspect.isawaitable(val):
+                    return async_executor(gen, val)
             except StopIteration as exc:
                 return exc.value
 
